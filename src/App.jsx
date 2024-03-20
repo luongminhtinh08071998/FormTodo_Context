@@ -37,38 +37,6 @@ export default function App() {
           handleCheckbox={handleCheckbox}
           handleAdd={handleAdd}
         />
-        // <>
-        //   <Flex gap="small">
-        //     <Input
-        //       placeholder="Please enter todo"
-        //       value={todos}
-        //       onChange={(e) => setTodos(e.target.value)}
-        //     />
-        //     <Button type="primary" onClick={handleAdd}>
-        //       Add
-        //     </Button>
-        //   </Flex>
-        //   <br />
-        //   <Flex vertical="column">
-        //     {addTodo.map((data) => (
-        //       <Checkbox key={data.id} onChange={handleCheckbox(data.id)}>
-        //         <p
-        //           style={{
-        //             textDecoration: `${data.checked ? 'line-through' : 'none'}`,
-        //           }}
-        //         >
-        //           {data.name}
-        //         </p>
-        //       </Checkbox>
-        //     ))}
-        //   </Flex>
-        //   <br />
-        //   <Flex gap="small" justify="end">
-        //     <Button danger type="primary" onClick={() => setDataAdd([])}>
-        //       Delete All
-        //     </Button>
-        //   </Flex>
-        // </>
       ),
     },
     {
@@ -76,27 +44,6 @@ export default function App() {
       label: 'Completed',
       children: (
         <TabComplete />
-        // <>
-        //   <Flex gap="small">
-        //     <Input placeholder="Please enter todo" />
-        //     <Button>Search</Button>
-        //   </Flex>
-        //   <br />
-        //   <Flex vertical="column">
-        //     <Flex justify="space-between" align="center">
-        //       <Text>Learn javascript</Text>
-        //       <Button danger shape="circle" icon={<DeleteOutlined />} />
-        //     </Flex>
-        //     <Flex
-        //       justify="space-between"
-        //       align="center"
-        //       style={{ marginTop: 5 }}
-        //     >
-        //       <Text>Learn angular</Text>
-        //       <Button danger shape="circle" icon={<DeleteOutlined />} />
-        //     </Flex>
-        //   </Flex>
-        // </>
       ),
     },
   ];
