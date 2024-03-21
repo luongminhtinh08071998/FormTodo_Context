@@ -1,6 +1,6 @@
 import { Flex, Input, Button } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { GlobalContext } from '../contexts/Todos';
 import { Typography } from 'antd';
 import GetTodos from './ChildrenMini';
@@ -11,30 +11,49 @@ export default function TabComplete() {
   const { todos, setTodos } = useContext(GlobalContext);
 
   function handleToggleComplete(id) {
-    setTodos(prevTodos => prevTodos.map(todo => 
-      todo.id === id ? { ...todo, checked: !todo.checked } : todo
-    ));
+    const updatedTodos = todos.map(todo => {
+      if (todo.id === id) {
+        return { ...todo, checked: !todo.checked };
+      } else {
+        return todo;
+      }
+    });
+
+    setTodos(updatedTodos);
   }
+
+  const [searchTask, setSearchTask] = useState('');
+
+  function handleSearch(e) {
+    const newSearchTask = e.target.value;
+    setSearchTask(newSearchTask);
+  }
+
+  const filteredTodos = todos.filter(todo => {
+    const isSearchTask = todo.name.includes(searchTask);
+    const isCompleted = todo.checked;
+
+    return isSearchTask && isCompleted;
+  });
 
   return (
     <>
       <Flex gap="small">
-        <Input placeholder="Please enter todo" />
+        <Input placeholder="Please enter todo" onChange={handleSearch} />
         <Button>Search</Button>
       </Flex>
       <br />
       <Flex vertical="column">
-        {todos.map(
-          (todo) =>
-            todo.checked && (
-              <>
-                <Flex justify="space-between" align="center">
-                  <Text key={todo.id}>{todo.name}</Text>
-                  <Button danger shape="circle" icon={<DeleteOutlined />} onClick={() => handleToggleComplete(todo.id)} />
-                </Flex>
-              </>
-            )
-        )}
+        {filteredTodos.map(todo => {
+          return (
+            <>
+              <Flex justify="space-between" align="center">
+                <Text key={todo.id}>{todo.name}</Text>
+                <Button danger shape="circle" icon={<DeleteOutlined />} onClick={() => handleToggleComplete(todo.id)} />
+              </Flex>
+            </>
+          );
+        })}
       </Flex>
       <GetTodos />
     </>
