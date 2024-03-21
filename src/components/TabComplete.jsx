@@ -1,8 +1,8 @@
 import { Flex, Input, Button } from 'antd';
-import { DeleteOutlined } from '@ant-design/icons';
 import { useContext, useState } from 'react';
 import { GlobalContext } from '../contexts/Todos';
 import { Typography } from 'antd';
+import { RiArrowGoBackLine } from "react-icons/ri";
 import GetTodos from './ChildrenMini';
 
 const { Text } = Typography;
@@ -47,9 +47,9 @@ export default function TabComplete() {
         {filteredTodos.map(todo => {
           return (
             <>
-              <Flex justify="space-between" align="center">
+              <Flex justify="space-between" align="center" style={{marginBottom: '15px'}}>
                 <Text key={todo.id}>{todo.name}</Text>
-                <Button danger shape="circle" icon={<DeleteOutlined />} onClick={() => handleToggleComplete(todo.id)} />
+                <Button danger shape="circle" icon={<RiArrowGoBackLine />} onClick={() => handleToggleComplete(todo.id)} />
               </Flex>
             </>
           );

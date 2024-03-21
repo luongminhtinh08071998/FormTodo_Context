@@ -10,19 +10,12 @@ export default function App() {
   const [todo, setTodo] = useState('');
 
   const handleAdd = () => {
-    const newTodos = [...todos, { id: Date.now(), name: todo, checked: false }];
-    setTodos(newTodos);
-    localStorage.setItem('todos', JSON.stringify(newTodos));
-    setTodo('');
+    if (todo.trim() !== '') {
+      setTodos([...todos, { id: Date.now(), name: todo, checked: false }]);
+      setTodo('');
+    }
   };
 
-  useEffect(() => {
-    const storedTodos = localStorage.getItem('todos');
-    if (storedTodos) {
-      setTodos(JSON.parse(storedTodos));
-    }
-  }, []);
-  
   const handleCheckbox = (id) => (e) => {
     setTodos((prev) =>
       prev.map((data) => {
@@ -33,6 +26,17 @@ export default function App() {
       })
     );
   };
+
+  useEffect(() => {
+    const storedTodos = localStorage.getItem('todos');
+    if (storedTodos) {
+      setTodos(JSON.parse(storedTodos));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }, [todos]);
 
   const items = [
     {
@@ -63,10 +67,10 @@ export default function App() {
 
   return (
       <GlobalContext.Provider value={{ todos, setTodos }}>
-        <div className="App">
-          <h1>Todo Tracker</h1>
-          <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
-        </div>
-      </GlobalContext.Provider>
-    );
+      <div className="App">
+        <h1>Todo Tracker</h1>
+        <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+      </div>
+    </GlobalContext.Provider>
+  );
 }
