@@ -1,6 +1,6 @@
 import { Tabs } from 'antd';
 import './index.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GlobalContext } from './contexts/Todos';
 import TabList from './components/TabList';
 import TabComplete from './components/TabComplete';
@@ -10,10 +10,19 @@ export default function App() {
   const [todo, setTodo] = useState('');
 
   const handleAdd = () => {
-    setTodos([...todos, { id: Date.now(), name: todo, checked: false }]);
+    const newTodos = [...todos, { id: Date.now(), name: todo, checked: false }];
+    setTodos(newTodos);
+    localStorage.setItem('todos', JSON.stringify(newTodos));
     setTodo('');
   };
 
+  useEffect(() => {
+    const storedTodos = localStorage.getItem('todos');
+    if (storedTodos) {
+      setTodos(JSON.parse(storedTodos));
+    }
+  }, []);
+  
   const handleCheckbox = (id) => (e) => {
     setTodos((prev) =>
       prev.map((data) => {
@@ -53,11 +62,11 @@ export default function App() {
   };
 
   return (
-    <GlobalContext.Provider value={todos}>
-      <div className="App">
-        <h1>Todo Tracker</h1>
-        <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
-      </div>
-    </GlobalContext.Provider>
-  );
+      <GlobalContext.Provider value={{ todos, setTodos }}>
+        <div className="App">
+          <h1>Todo Tracker</h1>
+          <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+        </div>
+      </GlobalContext.Provider>
+    );
 }

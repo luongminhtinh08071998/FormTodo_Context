@@ -2,11 +2,12 @@
 import { Flex, Input, Button, Checkbox } from 'antd';
 import { useContext } from 'react';
 import { GlobalContext } from '../contexts/Todos';
+import '../index.css';
 
-export default function TabList(props) {
-  const valueContext = useContext(GlobalContext);
-  const { todo, setTodo, setTodos, handleCheckbox, handleAdd } = props;
-
+function TabList(props) {
+  const {todos} = useContext(GlobalContext);
+  const { setTodos, todo, setTodo, handleCheckbox, handleAdd } = props;
+  
   return (
     <>
       <Flex gap="small">
@@ -21,8 +22,8 @@ export default function TabList(props) {
       </Flex>
       <br />
       <Flex vertical="column">
-        {valueContext?.map((data) => (
-          <Checkbox key={data.id} onChange={handleCheckbox(data.id)}>
+        {todos?.map((data) => (
+          <Checkbox key={data.id} onChange={handleCheckbox(data.id)} checked={data.checked}>
             <p
               style={{
                 textDecoration: `${data.checked ? 'line-through' : 'none'}`,
@@ -42,3 +43,5 @@ export default function TabList(props) {
     </>
   );
 }
+
+export default TabList;
